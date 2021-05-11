@@ -28,3 +28,25 @@ onClick={() => handleClick(arg1, arg2)}
 spread objects
 spready arrays and objects within objects
 otherwise you will overwrite the reference in memory
+only if your going to modify when your referencing it
+
+SPREAD STUFF
+const arr = [1 , 2, 3];
+const arr1 = arr;
+
+const newArr = [...arr]
+
+arr1[0] = 10;
+
+now arr = 10, 2, 3
+now arr1 = 10, 2, 3
+now newArr = 1, 2, 3
+
+---
+
+<input
+value={thingy}
+onChange={(event) => { setNewThingy(event.target.value)}}
+/>
+
+---
