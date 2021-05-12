@@ -10,6 +10,9 @@ import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
 import InterviewerListItem from "components/InterviewerListItem";
 import InterviewerList from "components/InterviewerList";
+
+// APPOINTMENT STORIES /////////////////////
+
 import Appointment from "components/Appointment";
 import Header from "components/Appointment/Header.js";
 import Empty from "components/Appointment/Empty.js";
@@ -17,6 +20,9 @@ import Show from "components/Appointment/Show.js";
 import Confirm from "components/Appointment/Confirm.js";
 import Status from "components/Appointment/Status.js";
 import Error from "components/Appointment/Error.js";
+import Form from "components/Appointment/Form.js";
+
+// APPOINTMENT STORIES /////////////////////
 
 storiesOf("Button", module)
   .addParameters({
@@ -137,6 +143,8 @@ storiesOf("InterviewerList", module)
     />
   ));
 
+// APPOINTMENT STORIES /////////////////////
+
 storiesOf("Appointment", module)
   .addParameters({
     backgrounds: [{ name: "white", value: "#fff", default: true }],
@@ -166,4 +174,22 @@ storiesOf("Appointment", module)
       message={"Could not delete appointment"}
       onClose={action("onClose")}
     />
+  ))
+  .add("Edit", () => (
+    <Form
+      name={"Steven Wright"}
+      interviewers={interviewers}
+      interviewer={interviewer}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ))
+  .add("Create", () => (
+    <Form
+      interviewers={interviewers}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
   ));
+
+// APPOINTMENT STORIES /////////////////////
