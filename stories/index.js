@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, Fragment } from "react";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -14,6 +14,7 @@ import InterviewerList from "components/InterviewerList";
 // APPOINTMENT STORIES /////////////////////
 
 import Appointment from "components/Appointment";
+
 import Header from "components/Appointment/Header.js";
 import Empty from "components/Appointment/Empty.js";
 import Show from "components/Appointment/Show.js";
@@ -177,7 +178,7 @@ storiesOf("Appointment", module)
   ))
   .add("Edit", () => (
     <Form
-      name={"Steven Wright"}
+      name={""}
       interviewers={interviewers}
       interviewer={interviewer}
       onSave={action("onSave")}
@@ -187,9 +188,26 @@ storiesOf("Appointment", module)
   .add("Create", () => (
     <Form
       interviewers={interviewers}
+      interviewer={2}
       onSave={action("onSave")}
       onCancel={action("onCancel")}
     />
+  ))
+  .add("Appointment Empty", () => (
+    <Fragment>
+      <Appointment id={1} time="12pm" />
+      <Appointment id="last" time="1pm" />
+    </Fragment>
+  ))
+  .add("Appointment Booked", () => (
+    <Fragment>
+      <Appointment
+        id={1}
+        time="12pm"
+        interview={{ student: "Lydia Miller-Jones", interviewer }}
+      />
+      <Appointment id="last" time="1pm" />
+    </Fragment>
   ));
 
 // APPOINTMENT STORIES /////////////////////
