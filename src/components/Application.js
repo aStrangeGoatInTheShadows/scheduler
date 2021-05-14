@@ -28,11 +28,25 @@ export default function Application(props) {
 
   const dailyAppointments = [];
 
+  const setDay = function (day) {
+    setState((stateClassic) => {
+      console.log("This is setDay stateClassic", stateClassic);
+
+      const newData = { ...stateClassic, day: day };
+
+      console.log("This is setDay newData", newData);
+
+      return newData;
+    });
+  };
+
   ///////////////// Probably shouldn't push
   ///////// Don't direwctly manipulate state
 
   useEffect(() => {
     Promise.all([apiGetDays(), apiGetAppointments()]).then((response) => {
+      console.log("useEffect promise.all response", response);
+
       setState(() => {
         const newState = {
           days: response[0].data,
@@ -58,6 +72,8 @@ export default function Application(props) {
 
   appArr.push(<Appointment key="last" time="5pm" />);
 
+  console.log("This is state.days prerender", state.days);
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -71,11 +87,7 @@ export default function Application(props) {
 
             <hr className="sidebar__separator sidebar--centered" />
             <nav className="sidebar__menu">
-              <DayList
-                days={state.days}
-                day={state.day}
-                setDay={setState.day}
-              />
+              <DayList days={state.days} day={state.day} setDay={setDay} />
             </nav>
 
             <img
