@@ -30,11 +30,7 @@ export default function Application(props) {
 
   const setDay = function (day) {
     setState((stateClassic) => {
-      console.log("This is setDay stateClassic", stateClassic);
-
       const newData = { ...stateClassic, day: day };
-
-      console.log("This is setDay newData", newData);
 
       return newData;
     });
@@ -45,7 +41,7 @@ export default function Application(props) {
 
   useEffect(() => {
     Promise.all([apiGetDays(), apiGetAppointments()]).then((response) => {
-      console.log("useEffect promise.all response", response);
+      // console.log("useEffect promise.all response", response);
 
       setState(() => {
         const newState = {
@@ -54,12 +50,33 @@ export default function Application(props) {
           day: "Monday",
         };
 
+        const allApps = [];
+
+        console.log(
+          `This is newState from API call in setState`,
+          newState.appointments
+        );
+
+        for (let app in newState.appointments) {
+          // console.log(newState.appointments[app]);
+          allApps.push(newState.appointments[app]);
+        }
+
+        dailyAppointments.push(...allApps);
+
+        // dailyAppointments.push(...newState.appointments);
+
         return { ...newState };
       });
     });
   }, []);
 
+  // dailyAppointments.push[...useState.appointments];
+  // console.log("this is use state appointments", useState.appointments);
+
+  console.log("premap dailyAppointments", dailyAppointments);
   const appArr = dailyAppointments.map((appointment) => {
+    console.log("Map ", appointment);
     return (
       <Appointment
         key={appointment.id}
@@ -72,7 +89,7 @@ export default function Application(props) {
 
   appArr.push(<Appointment key="last" time="5pm" />);
 
-  console.log("This is state.days prerender", state.days);
+  // console.log("This is dailyAppointments prerender", dailyAppointments);
 
   return (
     <main className="layout">

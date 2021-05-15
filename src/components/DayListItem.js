@@ -19,7 +19,7 @@ export default function DayListItem(props) {
     "day-list__item--full": !props.spots,
   });
 
-  console.log("daylistitem THIS IS PROPS ", props);
+  // console.log("daylistitem THIS IS PROPS ", props);
 
   const spotsRemaining = formatSpots(props);
   return (

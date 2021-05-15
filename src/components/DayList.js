@@ -4,8 +4,10 @@ import React from "react";
 import DayListItem from "components/DayListItem";
 
 export default function DayList(props) {
-  console.log("props map", props);
+  console.log("props map");
   const ourDays = props.days.map((day) => {
+    // console.log(`day${day.id} of `, day);
+
     return (
       <DayListItem
         key={day.id}
