@@ -16,7 +16,11 @@ export default function Appointment(props) {
       {!props.interview && props.id !== "last" && <Empty />}
       {props.interview && (
         <Show
-          interviewer={props.interview.interviewer}
+          interviewer={
+            props.interview
+              ? props.interviewers[props.interview.interviewer]
+              : null
+          }
           student={props.interview.student}
         />
       )}

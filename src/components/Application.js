@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
+import { getAppointmentsForDay } from "../helpers/selectors";
+
 // require("dotenv").config();
 const axios = require("axios");
 
@@ -19,14 +21,43 @@ const apiGetInterviewers = function () {
   return axios.get(`${api}/api/interviewers`);
 };
 
+const dayRay = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Takes in the state from application, converts it to an array, maps out into an HTML element
+// input : Object of appointments from API
+// Output : React component HTML to render to dom
+//////////////////////////////////////////////////////////////////////////////////////////
+// const appArr = makeAppointmentComponent(state.appointments, state.day);
+// const makeAppointmentComponent = (appStateIn, currentDay) => {
+const makeAppointmentComponent = (s) => {
+  const appArr = getAppointmentsForDay(s, s.day).map((appointment) => {
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={appointment.interview}
+        interviewers={s.interviewers}
+      />
+    );
+  });
+  appArr.push(<Appointment key="last" time="5pm" />);
+
+  return appArr;
+};
+
+/////////////////////////// START OF FUNCTION /////////////////////////////////////////
+/////////////////////////// START OF APPLICATION FUNCTION /////////////////////////////////////////
+/////////////////////////// START OF FUNCTION /////////////////////////////////////////
+
 export default function Application(props) {
   const [state, setState] = useState({
-    day: "Monday",
+    day: dayRay[1],
     days: [],
     appointments: {},
+    interviewers: {},
   });
-
-  const dailyAppointments = [];
 
   const setDay = function (day) {
     setState((stateClassic) => {
@@ -39,57 +70,47 @@ export default function Application(props) {
   ///////////////// Probably shouldn't push
   ///////// Don't direwctly manipulate state
 
-  useEffect(() => {
-    Promise.all([apiGetDays(), apiGetAppointments()]).then((response) => {
-      // console.log("useEffect promise.all response", response);
+  ///////////////// ///////////////// ///////////////// ///////////////// ///////////////// /////////////////
+  /////////////////////////// API CALLS //////////////////////////////////////////////
+  ///////////////// ///////////////// ///////////////// ///////////////// ///////////////// /////////////////
 
-      setState(() => {
+  useEffect(() => {
+    Promise.all([
+      apiGetDays(),
+      apiGetAppointments(),
+      apiGetInterviewers(),
+    ]).then((response) => {
+      setState((stateClassic) => {
+        // console.log(
+        //   "This is our api call. Here is response[2].data",
+        //   response[2].data
+        // );
+
         const newState = {
           days: response[0].data,
           appointments: response[1].data,
-          day: "Monday",
+          day: stateClassic.day,
+          interviewers: response[2].data,
         };
 
-        const allApps = [];
-
-        console.log(
-          `This is newState from API call in setState`,
-          newState.appointments
-        );
-
-        for (let app in newState.appointments) {
-          // console.log(newState.appointments[app]);
-          allApps.push(newState.appointments[app]);
-        }
-
-        dailyAppointments.push(...allApps);
-
-        // dailyAppointments.push(...newState.appointments);
-
-        return { ...newState };
+        return newState;
       });
     });
   }, []);
 
-  // dailyAppointments.push[...useState.appointments];
-  // console.log("this is use state appointments", useState.appointments);
+  ///////////////// ///////////////// ///////////////// ///////////////// ///////////////// /////////////////
+  /////////////////////////// END API CALLS //////////////////////////////////////////////
+  ///////////////// ///////////////// ///////////////// ///////////////// ///////////////// /////////////////
 
-  console.log("premap dailyAppointments", dailyAppointments);
-  const appArr = dailyAppointments.map((appointment) => {
-    console.log("Map ", appointment);
-    return (
-      <Appointment
-        key={appointment.id}
-        id={appointment.id}
-        time={appointment.time}
-        interview={appointment.interview}
-      />
-    );
-  });
+  // console.log("This is state.interviewers prerender", state.interviewers);
+  // console.log("the days arr", state.days);
 
-  appArr.push(<Appointment key="last" time="5pm" />);
+  // const appArr = makeAppointmentComponent(state.appointments, state.day);
+  const appArr = makeAppointmentComponent(state);
 
-  // console.log("This is dailyAppointments prerender", dailyAppointments);
+  ///////////////// ///////////////// ///////////////// ///////////////// ///////////////// /////////////////
+  /////////////////////////// Renders the DOM //////////////////////////////////////////////
+  ///////////////// ///////////////// ///////////////// ///////////////// ///////////////// /////////////////
 
   return (
     <main className="layout">
@@ -119,3 +140,7 @@ export default function Application(props) {
     </main>
   );
 }
+
+///////////////// ///////////////// ///////////////// ///////////////// ///////////////// /////////////////
+/////////////////////////// END DOM  RENDER //////////////////////////////////////////////
+///////////////// ///////////////// ///////////////// ///////////////// ///////////////// /////////////////
