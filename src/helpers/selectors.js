@@ -16,13 +16,35 @@ const getAppointmentsForDay = (state, day) => {
     appointments.push(state.appointments[index]);
   }
 
-  console.log(appointments);
+  // console.log(appointments);
 
   return appointments;
 };
 
-const getInterview = () => {
-  return "haha i exist. This function is not implimented as it was not needed";
+// builds and interview object
+const getInterview = (state, interview) => {
+  if (!interview) {
+    return null;
+  }
+  const { student: student, interviewer: interviewer } = interview;
+
+  for (let a in state.appointments) {
+    if (
+      state.appointments[a].interview &&
+      state.appointments[a].interview.student === student &&
+      state.appointments[a].interview.interviewer === interviewer
+    ) {
+      // console.log("this is state interviewers", state.interviewers);
+      return {
+        student: student,
+        interviewer: {
+          id: interviewer,
+          name: state.interviewers[interviewer].name,
+          avatar: state.interviewers[interviewer].avatar,
+        },
+      };
+    }
+  }
 };
 
 export { getAppointmentsForDay, getInterview };

@@ -4,25 +4,35 @@ import "./styles.scss";
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
+import Form from "./Form";
 
-/////////////////////////// /////////////////////////// /////////////////////////// /////////////////////////// ///////////////////////////
-// The Form component is a bit more complicated than the rest. We will save it for the next activity.
-/////////////////////////// /////////////////////////// /////////////////////////// /////////////////////////// /////////////////////////// /////////////////////////// ///////////////////////////
+import useVisualMode from "../../hooks/useVisualMode";
+import { getInterview } from "../../helpers/selectors";
+
+const EMPTY = "EMPTY";
+const SHOW = "SHOW";
+const CREATE = "CREATE";
+
+///////////////////////////////////
+// props.intObj contains all interview info
+//////////////////////////////
 
 export default function Appointment(props) {
+  const { mode, transition, back } = useVisualMode(
+    props.interview ? SHOW : EMPTY
+  );
   return (
     <article className="appointment">
       <Header time={props.time} />
-      {!props.interview && props.id !== "last" && <Empty />}
-      {props.interview && (
+      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+      {mode === SHOW && (
         <Show
-          interviewer={
-            props.interview
-              ? props.interviewers[props.interview.interviewer]
-              : null
-          }
           student={props.interview.student}
+          interviewer={props.intObj.interviewer}
         />
+      )}
+      {mode === CREATE && (
+        <Form interviewers={props.interviewers} onCancel={() => back()} />
       )}
     </article>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import InterviewerList from "../InterviewerList";
 import Button from "../Button";
+import { objToArray } from "helpers/ductTape.js";
 
 export default function Form(props) {
   const [name, setName] = useState(props.name || "");
@@ -36,7 +37,7 @@ export default function Form(props) {
           />
         </form>
         <InterviewerList
-          interviewers={props.interviewers}
+          interviewers={objToArray(props.interviewers)}
           interviewer={interviewer}
           setInterviewer={setInterviewer} // Passes state CALLBACK down as prop to interviewer list
           ///////////////////////////////////// HERE

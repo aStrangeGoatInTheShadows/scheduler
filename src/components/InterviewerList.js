@@ -4,6 +4,8 @@ import "./InterviewerList.scss";
 import InterviewerListItem from "./InterviewerListItem";
 
 export default function InterviewerList(props) {
+  ///////////////////// THIS IS CRASHING BECAUSE ITS AN OBJ AND NOT AN ARRAY
+
   const interviewersList = props.interviewers.map((interviewer) => {
     return (
       <InterviewerListItem

@@ -19,11 +19,14 @@ export default function DayListItem(props) {
     "day-list__item--full": !props.spots,
   });
 
-  // console.log("daylistitem THIS IS PROPS ", props);
-
   const spotsRemaining = formatSpots(props);
   return (
-    <li className={dayClass} onClick={() => props.setDay(props.name)}>
+    <li
+      className={dayClass}
+      onClick={() => {
+        props.setDay(props.name);
+      }}
+    >
       <h2 className="text--regular">{props.name}</h2>
       <h3 className="text--light">{spotsRemaining}</h3>
     </li>
