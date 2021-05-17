@@ -133,7 +133,6 @@ export default function Application(props) {
   ///////////////// ///////////////// ///////////////// ///////////////// ///////////////// /////////////////
 
   const appArr = makeAppointmentComponent(state);
-  getInterview(state);
 
   // Builds the DOM
   return makeWebpageOrSomething(state, appArr, setDay);

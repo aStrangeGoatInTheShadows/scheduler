@@ -21,6 +21,8 @@ const getAppointmentsForDay = (state, day) => {
   return appointments;
 };
 
+const getInterviewersForDay = () => {};
+
 // builds and interview object
 const getInterview = (state, interview) => {
   if (!interview) {
@@ -47,4 +49,4 @@ const getInterview = (state, interview) => {
   }
 };
 
-export { getAppointmentsForDay, getInterview };
+export { getAppointmentsForDay, getInterview, getInterviewersForDay };
