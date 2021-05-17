@@ -21,7 +21,30 @@ const getAppointmentsForDay = (state, day) => {
   return appointments;
 };
 
-const getInterviewersForDay = () => {};
+const getInterviewersForDay = (state, day) => {
+  if (state.days.length === 0) {
+    return [];
+  }
+
+  const filteredDays = state.days.filter((dayOf) => dayOf.name === day);
+
+  if (filteredDays.length === 0) {
+    return [];
+  }
+
+  console.log("filtered days", filteredDays);
+
+  const appIndexs = filteredDays[0].appointments;
+  const appointments = [];
+
+  for (let index of appIndexs) {
+    appointments.push(state.appointments[index]);
+  }
+
+  // console.log(appointments);
+
+  return appointments;
+};
 
 // builds and interview object
 const getInterview = (state, interview) => {

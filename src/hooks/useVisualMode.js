@@ -17,7 +17,7 @@ export default function useVisualMode(initial) {
     setHistory((old) => {
       return [...old, newMode];
     });
-    console.log("setting mode to", newMode);
+    // console.log("setting mode to", newMode);
     setMode(newMode);
   };
 
