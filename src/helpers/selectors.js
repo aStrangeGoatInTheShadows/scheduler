@@ -31,9 +31,6 @@ const getInterviewersForDay = (state, day) => {
   if (filteredDays.length === 0) {
     return [];
   }
-
-  console.log("filtered days", filteredDays);
-
   const appIndexs = filteredDays[0].appointments;
   const appointments = [];
 
@@ -41,9 +38,22 @@ const getInterviewersForDay = (state, day) => {
     appointments.push(state.appointments[index]);
   }
 
-  // console.log(appointments);
+  // console.log("Appointments", appointments);
 
-  return appointments;
+  const interviewers = [];
+  for (let app of appointments) {
+    // console.log("this is ", app);
+    if (app.interview) {
+      if (!interviewers.includes(app.interview.interviewer)) {
+        interviewers.push(state.interviewers[app.interview.interviewer]);
+      }
+    }
+  }
+
+  // console.log("this is state", state);
+  // console.log("this is interviewers", interviewers);
+
+  return interviewers;
 };
 
 // builds and interview object

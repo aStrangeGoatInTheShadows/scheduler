@@ -27,7 +27,11 @@ const state = {
       time: "2pm",
       interview: { student: "Archie Cohen", interviewer: 2 },
     },
-    4: { id: 4, time: "3pm", interview: null },
+    4: {
+      id: 4,
+      time: "3pm",
+      interview: { student: "Archie Cohen", interviewer: 1 },
+    },
     5: {
       id: 5,
       time: "4pm",
@@ -94,20 +98,23 @@ test("getInterview returns null if no interview is booked", () => {
   expect(result).toBeNull();
 });
 
+//////////////// //////////////// //////////////// //////////////// ////////////////
+////////////////////// getInterviewersForDay //////////////////////////////////
+//////////////// //////////////// TESTS //////////////// //////////////// ////////////////
 test("getInterviewersForDay returns an array", () => {
   const result = getInterviewersForDay(state, "Monday");
   expect(Array.isArray(result)).toBe(true);
 });
 
 test("getInterviewersForDay returns an array with a length matching the number of interviewers for that day", () => {
-  const result = getInterviewersForDay(state, "Monday");
-  expect(result.length).toEqual(3);
+  const result = getInterviewersForDay(state, "Tuesday");
+  expect(result.length).toEqual(2);
 });
 
 test("getInterviewersForDay returns an array containing the correct interviewer objects", () => {
   const [first, second] = getInterviewersForDay(state, "Tuesday");
-  expect(first).toEqual(state.appointments["4"]);
-  expect(second).toEqual(state.appointments["5"]);
+  expect(first).toEqual(state.interviewers["1"]);
+  expect(second).toEqual(state.interviewers["2"]);
 });
 
 test("getInterviewersForDay returns an empty array when the days data is empty", () => {
