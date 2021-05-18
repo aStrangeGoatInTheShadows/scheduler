@@ -17,7 +17,7 @@ export default function Form(props) {
     props.onCancel();
   };
 
-  // console.log("This is props", props);
+  console.log("This is props in form", props);
 
   return (
     <main className="appointment__card appointment__card--create">
@@ -48,8 +48,10 @@ export default function Form(props) {
           </Button>
           <Button
             onClick={() => {
-              props.onSave(name, interviewer, props.id);
-              props.saving();
+              if (name && interviewer) {
+                props.onSave(name, interviewer, props.id, props.happyDone);
+                props.saving();
+              }
             }}
             confirm
           >

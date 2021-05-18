@@ -75,25 +75,57 @@ const makeAppointmentComponent = (state, setState) => {
       inter = getInterview(state, appointment.interview);
     }
 
-    const bookInterview = function (id, interview) {
+    const bookInterview = function (id, interview, happyDone) {
       setState((sClassic) => {
         const newData = { ...sClassic };
         newData.appointments[id].interview = interview;
 
-        console.log(axios.put(`${api}/api/interviewers`));
+        axios
+          .put(`${api}/api/appointments/${id}`, { interview })
+          .then((res) => {
+            console.log(res);
+            happyDone();
+          })
+          .catch((err) => {
+            console.log("Failed to add new appointment to server", err);
+          });
 
         return newData;
       });
     };
 
-    function save(name, interviewer, id) {
+    function save(name, interviewer, id, happyDone) {
       const interview = {
         student: name,
         interviewer,
       };
 
-      bookInterview(id, interview);
+      bookInterview(id, interview, happyDone);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////// WORKING HERE
+    function deleteApp(id, happyDelete, mode) {
+      // console.log("You hit delete for appointment ", appointment);
+
+      axios
+        .delete(`${api}/api/appointments/${id}`)
+        .then((res) => {
+          happyDelete(mode);
+          setState((sClassic) => {
+            const newData = { ...sClassic };
+            newData.appointments[id].interview = null;
+            return newData;
+          });
+        })
+        .catch((err) => {
+          console.log("Failed to remove appointment from server", err);
+        });
+    }
+
+    //////////////////// END DELETE
 
     return (
       <Appointment
@@ -104,6 +136,7 @@ const makeAppointmentComponent = (state, setState) => {
         interviewers={state.interviewers}
         intObj={inter}
         onSave={save}
+        onDelete={deleteApp}
       />
     );
   });

@@ -58,6 +58,8 @@ const getInterviewersForDay = (state, day) => {
 
 // builds and interview object
 const getInterview = (state, interview) => {
+  // console.log(" THIS IS INTERVIEW WHERE EVERYTHING BLOWS UP", interview);
+
   if (!interview) {
     return null;
   }
