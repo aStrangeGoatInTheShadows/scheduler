@@ -3,6 +3,7 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview } from "../helpers/selectors";
+import { useApplicationData } from "hooks/useApplicationData";
 
 // require("dotenv").config();
 const axios = require("axios");
@@ -151,20 +152,8 @@ const makeAppointmentComponent = (state, setState) => {
 /////////////////////////// START OF APPLICATION FUNCTION /////////////////////////////////////////
 
 export default function Application(props) {
-  const [state, setState] = useState({
-    day: dayRay[1],
-    days: [],
-    appointments: {},
-    interviewers: {},
-  });
-
-  const setDay = function (day) {
-    setState((stateClassic) => {
-      const newData = { ...stateClassic, day: day };
-
-      return newData;
-    });
-  };
+  const { state, setDay, bookInterview, cancelInterview } =
+    useApplicationData();
 
   ///////////////// Probably shouldn't push
   ///////// Don't direwctly manipulate state

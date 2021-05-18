@@ -1,8 +1,22 @@
 import React, { useState, useEffect } from "react";
 
-export default function useApplicationData(initial) {
-  const [mode, setMode] = useState(initial);
-  const [history, setHistory] = useState([initial]);
+const useApplicationData = function () {
+  const [state, setState] = useState({
+    day: dayRay[1],
+    days: [],
+    appointments: {},
+    interviewers: {},
+  });
 
-  return {};
-}
+  const setDay = function (day) {
+    setState((stateClassic) => {
+      const newData = { ...stateClassic, day: day };
+
+      return newData;
+    });
+  };
+
+  return { state, setState, setDay };
+};
+
+export { useApplicationData };
