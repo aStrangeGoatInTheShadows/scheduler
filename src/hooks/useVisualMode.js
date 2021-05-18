@@ -18,8 +18,6 @@ export default function useVisualMode(initial) {
       return [...old, newMode];
     });
 
-    console.log("Visual Mode Historyt", history);
-
     // console.log("setting mode to", newMode);
     setMode(newMode);
   };

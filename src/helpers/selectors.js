@@ -21,6 +21,20 @@ const getAppointmentsForDay = (state, day) => {
   return appointments;
 };
 
+const getFreeSpots = (state) => {
+  const apps = getAppointmentsForDay(state, state.day);
+  let count = 0;
+
+  console.log("This is getFreeSpots loop");
+  for (let a of apps) {
+    if (!a.interview) {
+      count++;
+    }
+  }
+
+  return count;
+};
+
 const getInterviewersForDay = (state, day) => {
   if (state.days.length === 0) {
     return [];
@@ -84,4 +98,9 @@ const getInterview = (state, interview) => {
   }
 };
 
-export { getAppointmentsForDay, getInterview, getInterviewersForDay };
+export {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+  getFreeSpots,
+};
