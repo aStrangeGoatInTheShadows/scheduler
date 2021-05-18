@@ -17,11 +17,7 @@ export default function Form(props) {
     props.onCancel();
   };
 
-  // The Form component should have the following actions:
-  //   setName:Function
-  // setInterviewer:Function
-
-  console.log("this is props in form", props);
+  // console.log("This is props", props);
 
   return (
     <main className="appointment__card appointment__card--create">
@@ -50,7 +46,13 @@ export default function Form(props) {
           <Button danger onClick={props.onCancel && cancel}>
             Cancel
           </Button>
-          <Button onClick={props.onSave} confirm>
+          <Button
+            onClick={() => {
+              props.onSave(name, interviewer, props.id);
+              props.saving();
+            }}
+            confirm
+          >
             Save
           </Button>
         </section>

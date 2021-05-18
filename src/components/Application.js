@@ -53,6 +53,10 @@ const makeWebpageOrSomething = function (state, appArr, setDay) {
   );
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////
+// Passed as props to the appointment component
+//////////////////////////////////////////////////////////////////////////////////
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Takes in the state from application, converts it to an array, maps out into an HTML element
 // input : Object of appointments from API
@@ -60,11 +64,35 @@ const makeWebpageOrSomething = function (state, appArr, setDay) {
 //////////////////////////////////////////////////////////////////////////////////////////
 // const appArr = makeAppointmentComponent(state.appointments, state.day);
 // const makeAppointmentComponent = (appStateIn, currentDay) => {
-const makeAppointmentComponent = (s) => {
-  const appArr = getAppointmentsForDay(s, s.day).map((appointment) => {
+const makeAppointmentComponent = (state, setState) => {
+  // console.log("make appointment state", state);
+
+  const appArr = getAppointmentsForDay(state, state.day).map((appointment) => {
     let inter = {};
+    // console.log("appointment loop", appointment);
+
     if (appointment.interview) {
-      inter = getInterview(s, appointment.interview);
+      inter = getInterview(state, appointment.interview);
+    }
+
+    const bookInterview = function (id, interview) {
+      setState((sClassic) => {
+        const newData = { ...sClassic };
+        newData.appointments[id].interview = interview;
+
+        console.log(axios.put(`${api}/api/interviewers`));
+
+        return newData;
+      });
+    };
+
+    function save(name, interviewer, id) {
+      const interview = {
+        student: name,
+        interviewer,
+      };
+
+      bookInterview(id, interview);
     }
 
     return (
@@ -73,8 +101,9 @@ const makeAppointmentComponent = (s) => {
         id={appointment.id}
         time={appointment.time}
         interview={appointment.interview}
-        interviewers={s.interviewers}
+        interviewers={state.interviewers}
         intObj={inter}
+        onSave={save}
       />
     );
   });
@@ -132,7 +161,7 @@ export default function Application(props) {
   /////////////////////////// END API CALLS //////////////////////////////////////////////
   ///////////////// ///////////////// ///////////////// ///////////////// ///////////////// /////////////////
 
-  const appArr = makeAppointmentComponent(state);
+  const appArr = makeAppointmentComponent(state, setState);
 
   // Builds the DOM
   return makeWebpageOrSomething(state, appArr, setDay);
