@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./styles.scss";
 // import classNames from 'classnames'
 import Header from "./Header";
@@ -7,6 +7,7 @@ import Empty from "./Empty";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 import useVisualMode from "../../hooks/useVisualMode";
 import { getInterview, getInterviewersForDay } from "../../helpers/selectors";
@@ -18,17 +19,17 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 ///////////////////////////////////
 // props.intObj contains all interview info
 //////////////////////////////
 
 export default function Appointment(props) {
-  const { mode, transition, back, resetTo } = useVisualMode(
+  const { mode, transition, back, resetTo, show } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-
-  // console.log("Appointment.props", props);
 
   const createOrEdit = (editMode = null) => {
     // console.log("This is props.interview in create or edit", props.interview);
@@ -37,17 +38,30 @@ export default function Appointment(props) {
         name={editMode && props.interview.student}
         interviewer={editMode && props.interview.interviewer}
         interviewers={props.interviewers}
-        onCancel={() => back()}
+        onCancel={() => {
+          back();
+          console.log("Form Cancellation SHOW", show());
+        }}
+        // editMode={editMode}
         onSave={props.onSave}
         id={props.id}
         saving={() => {
           transition(SAVING);
         }}
         happyDone={() => transition(SHOW)}
+        sadDone={() => transition(ERROR_SAVE, true)}
+        showHistory={show}
       />
     );
   };
 
+  //////////////////////////////// //////////////////////////////// ////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////// WHEN YOU HIT CANCEL ON AN EXISTING ONE, IT GOES TO EMPTY
+
+  // console.log("This is show before render", show());
   return (
     <article className="appointment">
       <Header time={props.time} />
@@ -61,13 +75,28 @@ export default function Appointment(props) {
             transition(CONFIRM);
           }}
           onEdit={() => {
-            console.log("you hit edit");
             transition(EDIT);
           }}
         />
       )}
       {mode === CREATE && createOrEdit()}
       {mode === EDIT && createOrEdit(EDIT)}
+      {mode === ERROR_SAVE && (
+        <Error
+          message={"We are unable to save at this time."}
+          onClose={() => {
+            back();
+          }}
+        />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error
+          message={"We are unable to delete at this time."}
+          onClose={() => {
+            resetTo(SHOW);
+          }}
+        />
+      )}
       {mode === SAVING && <Status message={"Saving..."} />}
       {mode === DELETING && <Status message={"Deleting..."} />}
       {mode === CONFIRM && (
@@ -76,7 +105,9 @@ export default function Appointment(props) {
           onCancel={back}
           onConfirm={() => {
             transition(DELETING);
-            props.onDelete(props.id, resetTo, EMPTY);
+            props.onDelete(props.id, resetTo, EMPTY, () =>
+              transition(ERROR_DELETE)
+            );
           }}
         />
       )}

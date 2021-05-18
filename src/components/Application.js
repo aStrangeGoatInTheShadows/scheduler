@@ -75,7 +75,7 @@ const makeAppointmentComponent = (state, setState) => {
       inter = getInterview(state, appointment.interview);
     }
 
-    const bookInterview = function (id, interview, happyDone) {
+    const bookInterview = function (id, interview, happyDone, sadDone) {
       setState((sClassic) => {
         const newData = { ...sClassic };
         newData.appointments[id].interview = interview;
@@ -87,6 +87,7 @@ const makeAppointmentComponent = (state, setState) => {
             happyDone();
           })
           .catch((err) => {
+            sadDone();
             console.log("Failed to add new appointment to server", err);
           });
 
@@ -94,20 +95,20 @@ const makeAppointmentComponent = (state, setState) => {
       });
     };
 
-    function save(name, interviewer, id, happyDone) {
+    function save(name, interviewer, id, happyDone, sadDone) {
       const interview = {
         student: name,
         interviewer,
       };
 
-      bookInterview(id, interview, happyDone);
+      bookInterview(id, interview, happyDone, sadDone);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////// WORKING HERE
-    function deleteApp(id, happyDelete, mode) {
+    function deleteApp(id, happyDelete, mode, sadDelete) {
       // console.log("You hit delete for appointment ", appointment);
 
       axios
@@ -121,6 +122,7 @@ const makeAppointmentComponent = (state, setState) => {
           });
         })
         .catch((err) => {
+          sadDelete();
           console.log("Failed to remove appointment from server", err);
         });
     }
