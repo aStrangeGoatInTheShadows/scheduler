@@ -6,24 +6,29 @@ import { objToArray } from "helpers/ductTape.js";
 export default function Form(props) {
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
+  const [error, setError] = useState("");
+  // console.log("This is props in form", props);
 
-  // UNUSED
-  // const reset = () => {
-  //   setName("");
-  //   setInterviewer(null);
-  // };
+  function validate() {
+    if (name === "") {
+      setError("Student name cannot be blank");
+      return;
+    }
 
-  // UNUSED
-  // const cancel = () => {
-  //   reset();
-  //   props.onCancel();
-  // };
+    if (!interviewer) {
+      setError("You must select an interviewer");
+      return;
+    }
+
+    props.onSave(name, interviewer, props.id, props.happyDone, props.sadDone);
+  }
 
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
         <form autoComplete="off" onSubmit={(event) => event.preventDefault()}>
           <input
+            data-testid="student-name-input"
             className="appointment__create-input text--semi-bold"
             name={props.name}
             type="text"
@@ -33,6 +38,7 @@ export default function Form(props) {
               setName(event.target.value);
             }}
           />
+          <section className="appointment__validation">{error}</section>
         </form>
         <InterviewerList
           interviewers={objToArray(props.interviewers)}
@@ -41,15 +47,9 @@ export default function Form(props) {
           ///////////////////////////////////// HERE
         />
       </section>
+
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          {/* <Button danger onClick={props.onCancel && cancel}> */}
-
-          {/* WORKING HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
-          {/* WORKING HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
-          {/* WORKING HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
-          {/* WORKING HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
-          {/* WORKING HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
           <Button
             danger
             onClick={() => {
@@ -60,17 +60,10 @@ export default function Form(props) {
             Cancel
           </Button>
           <Button
+            data-testid="save-button"
             onClick={() => {
-              if (name && interviewer) {
-                props.onSave(
-                  name,
-                  interviewer,
-                  props.id,
-                  props.happyDone,
-                  props.sadDone
-                );
-                props.saving();
-              }
+              validate();
+              props.saving();
             }}
             confirm
           >
