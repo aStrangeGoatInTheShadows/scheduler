@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { getFreeSpots } from "../helpers/selectors";
 const axios = require("axios");
 const api = "http://192.168.1.249:8075";

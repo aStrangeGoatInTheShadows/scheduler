@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./styles.scss";
 // import classNames from 'classnames'
 import Header from "./Header";
@@ -10,7 +10,8 @@ import Confirm from "./Confirm";
 import Error from "./Error";
 
 import useVisualMode from "../../hooks/useVisualMode";
-import { getInterview, getInterviewersForDay } from "../../helpers/selectors";
+// unused
+// import { getInterview, getInterviewersForDay } from "../../helpers/selectors";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -54,12 +55,6 @@ export default function Appointment(props) {
       />
     );
   };
-
-  //////////////////////////////// //////////////////////////////// ////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////// WHEN YOU HIT CANCEL ON AN EXISTING ONE, IT GOES TO EMPTY
 
   // console.log("This is show before render", show());
   return (

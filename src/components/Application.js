@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
@@ -114,7 +114,7 @@ export default function Application(props) {
         return newState;
       });
     });
-  }, []);
+  }, [setState]);
 
   const appArr = makeAppointmentComponent(state, setState, save, deleteApp);
 

@@ -77,7 +77,7 @@ const getInterview = (state, interview) => {
   if (!interview) {
     return null;
   }
-  const { student: student, interviewer: interviewer } = interview;
+  const { student, interviewer } = interview;
 
   for (let a in state.appointments) {
     if (
