@@ -16,8 +16,6 @@ const getAppointmentsForDay = (state, day) => {
     appointments.push(state.appointments[index]);
   }
 
-  // console.log(appointments);
-
   return appointments;
 };
 
@@ -52,28 +50,19 @@ const getInterviewersForDay = (state, day) => {
     appointments.push(state.appointments[index]);
   }
 
-  // console.log("Appointments", appointments);
-
   const interviewers = [];
   for (let app of appointments) {
-    // console.log("this is ", app);
     if (app.interview) {
       if (!interviewers.includes(app.interview.interviewer)) {
         interviewers.push(state.interviewers[app.interview.interviewer]);
       }
     }
   }
-
-  // console.log("this is state", state);
-  // console.log("this is interviewers", interviewers);
-
   return interviewers;
 };
 
-// builds and interview object
+// builds an interview object
 const getInterview = (state, interview) => {
-  // console.log(" THIS IS INTERVIEW WHERE EVERYTHING BLOWS UP", interview);
-
   if (!interview) {
     return null;
   }
@@ -85,7 +74,6 @@ const getInterview = (state, interview) => {
       state.appointments[a].interview.student === student &&
       state.appointments[a].interview.interviewer === interviewer
     ) {
-      // console.log("this is state interviewers", state.interviewers);
       return {
         student: student,
         interviewer: {

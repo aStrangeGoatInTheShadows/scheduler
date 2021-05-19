@@ -5,7 +5,6 @@ import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview } from "../helpers/selectors";
 import { useApplicationData } from "hooks/useApplicationData";
 
-// require("dotenv").config();
 const axios = require("axios");
 
 const api = "http://192.168.1.249:8075";
@@ -22,6 +21,7 @@ const apiGetInterviewers = function () {
   return axios.get(`${api}/api/interviewers`);
 };
 
+// Makes a webpage. Its something ....
 const makeWebpageOrSomething = function (state, appArr, setDay) {
   return (
     <main className="layout">
@@ -52,10 +52,6 @@ const makeWebpageOrSomething = function (state, appArr, setDay) {
   );
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////
-// Passed as props to the appointment component
-//////////////////////////////////////////////////////////////////////////////////
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Takes in the state from application, converts it to an array, maps out into an HTML element
 // input : Object of appointments from API
@@ -64,8 +60,6 @@ const makeWebpageOrSomething = function (state, appArr, setDay) {
 // const appArr = makeAppointmentComponent(state.appointments, state.day);
 // const makeAppointmentComponent = (appStateIn, currentDay) => {
 const makeAppointmentComponent = (state, setState, save, deleteApp) => {
-  // console.log("make appointment state", state);
-
   const appArr = getAppointmentsForDay(state, state.day).map((appointment) => {
     let inter = {};
 
@@ -90,9 +84,6 @@ const makeAppointmentComponent = (state, setState, save, deleteApp) => {
 
   return appArr;
 };
-
-/////////////////////////// START OF FUNCTION /////////////////////////////////////////
-/////////////////////////// START OF APPLICATION FUNCTION /////////////////////////////////////////
 
 export default function Application(props) {
   const { state, setState, setDay, save, deleteApp } = useApplicationData();

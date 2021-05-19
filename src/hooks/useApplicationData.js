@@ -5,6 +5,8 @@ const api = "http://192.168.1.249:8075";
 
 const dayRay = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
+//////////////////////////////////////////////////////////////////
+// This is a custom hook to manage the state of our data
 const useApplicationData = function () {
   const [state, setState] = useState({
     day: dayRay[1],
@@ -31,14 +33,8 @@ const useApplicationData = function () {
       })
       .catch((err) => {
         sadDone();
-        console.log("Failed to add new appointment to server", err);
       });
   };
-
-  ////////////////////////////////// ////////////////////////////////// //////////////////////////////////
-  ////////////////////////////////// ////////////////////////////////// //////////////////////////////////
-  ////////////////////////////////// ////////////////////////////////// //////////////////////////////////
-  //////////////////////////////////  UPDATE SPOTS ON DELETE AND SAVE
 
   function deleteApp(id, happyDelete, mode, sadDelete) {
     axios
@@ -54,11 +50,9 @@ const useApplicationData = function () {
 
           return newData;
         });
-        console.log("heres freespots ", getFreeSpots(state));
       })
-      .catch((err) => {
+      .catch(() => {
         sadDelete();
-        console.log("Failed to remove appointment from server", err);
       });
   }
 
@@ -74,11 +68,9 @@ const useApplicationData = function () {
   const setDay = function (day) {
     setState((stateClassic) => {
       const newData = { ...stateClassic, day: day };
-
       return newData;
     });
   };
-
   return { state, setState, setDay, bookInterview, save, deleteApp };
 };
 

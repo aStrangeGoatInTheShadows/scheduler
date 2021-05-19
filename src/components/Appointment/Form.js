@@ -7,7 +7,6 @@ export default function Form(props) {
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
-  // console.log("This is props in form", props);
 
   function validate() {
     if (name === "") {
@@ -43,8 +42,7 @@ export default function Form(props) {
         <InterviewerList
           interviewers={objToArray(props.interviewers)}
           interviewer={interviewer}
-          setInterviewer={setInterviewer} // Passes state CALLBACK down as prop to interviewer list
-          ///////////////////////////////////// HERE
+          setInterviewer={setInterviewer}
         />
       </section>
 
@@ -54,7 +52,6 @@ export default function Form(props) {
             danger
             onClick={() => {
               props.onCancel();
-              // props.showHistory();
             }}
           >
             Cancel

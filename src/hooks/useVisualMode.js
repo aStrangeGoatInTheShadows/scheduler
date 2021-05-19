@@ -17,8 +17,6 @@ export default function useVisualMode(initial) {
     setHistory((old) => {
       return [...old, newMode];
     });
-
-    // console.log("setting mode to", newMode);
     setMode(newMode);
   };
 
@@ -29,11 +27,6 @@ export default function useVisualMode(initial) {
       setMode(newMode);
       return;
     }
-    // if (newMode != "EDIT" && newMode != "SHOW") {
-    //   throw "DON'T DO THAT!!!!!";
-    // }
-
-    console.log("this is new mode", newMode);
     setHistory(["EMPTY", newMode]);
     setMode(newMode);
   };

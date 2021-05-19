@@ -1,6 +1,5 @@
 import React from "react";
 import "./styles.scss";
-// import classNames from 'classnames'
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
@@ -10,8 +9,6 @@ import Confirm from "./Confirm";
 import Error from "./Error";
 
 import useVisualMode from "../../hooks/useVisualMode";
-// unused
-// import { getInterview, getInterviewersForDay } from "../../helpers/selectors";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -23,17 +20,12 @@ const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 
-///////////////////////////////////
-// props.intObj contains all interview info
-//////////////////////////////
-
 export default function Appointment(props) {
   const { mode, transition, back, resetTo, show } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
 
   const createOrEdit = (editMode = null) => {
-    // console.log("This is props.interview in create or edit", props.interview);
     return (
       <Form
         name={editMode && props.interview.student}
@@ -43,7 +35,6 @@ export default function Appointment(props) {
           back();
           console.log("Form Cancellation SHOW", show());
         }}
-        // editMode={editMode}
         onSave={props.onSave}
         id={props.id}
         saving={() => {
@@ -56,7 +47,6 @@ export default function Appointment(props) {
     );
   };
 
-  // console.log("This is show before render", show());
   return (
     <article className="appointment">
       <Header time={props.time} />

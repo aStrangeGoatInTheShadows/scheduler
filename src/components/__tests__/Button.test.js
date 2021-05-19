@@ -10,11 +10,6 @@ it("renders without crashing", () => {
   render(<Button />);
 });
 
-// A button can render
-// A button renders with the default style
-// A button renders with the confirm style when the confirm prop is true
-// A button renders with the danger style when the danger prop is true
-
 it("renders its `children` prop as text", () => {
   const { getByText } = render(<Button>Default</Button>);
   expect(getByText("Default")).toBeInTheDocument();

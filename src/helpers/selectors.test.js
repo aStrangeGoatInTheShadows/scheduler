@@ -4,8 +4,6 @@ import {
   getInterviewersForDay,
 } from "./selectors.js";
 
-// console.log(getAppointmentsForDay);
-
 const state = {
   days: [
     {
@@ -98,9 +96,6 @@ test("getInterview returns null if no interview is booked", () => {
   expect(result).toBeNull();
 });
 
-//////////////// //////////////// //////////////// //////////////// ////////////////
-////////////////////// getInterviewersForDay //////////////////////////////////
-//////////////// //////////////// TESTS //////////////// //////////////// ////////////////
 test("getInterviewersForDay returns an array", () => {
   const result = getInterviewersForDay(state, "Monday");
   expect(Array.isArray(result)).toBe(true);
