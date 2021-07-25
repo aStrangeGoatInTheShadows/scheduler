@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { getFreeSpots } from "../helpers/selectors";
 const axios = require("axios");
-const api = "http://192.168.1.249:8075";
+
+require("dotenv").config();
+const api = `http://${process.env.REACT_APP_API_SERVER}:${process.env.REACT_APP_API_PORT}`;
 
 const dayRay = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 

@@ -7,7 +7,8 @@ import { useApplicationData } from "hooks/useApplicationData";
 
 const axios = require("axios");
 
-const api = "http://192.168.1.249:8075";
+require("dotenv").config();
+const api = `http://${process.env.REACT_APP_API_SERVER}:${process.env.REACT_APP_API_PORT}`;
 
 const apiGetAppointments = function () {
   return axios.get(`${api}/api/appointments`);
